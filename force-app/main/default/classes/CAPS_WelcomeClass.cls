@@ -19,4 +19,23 @@ public with sharing class CAPS_WelcomeClass {
         String welcomeMessage = 'Hi ' + userName + ', Welcome to Salesforce. Today is ' + currentDate;
         return welcomeMessage;
     }
+
+    /**
+     * @description Gets an object with two attributes for current user name and current date
+     * @return a Message object with current user name and current date
+     */
+    public static Message getMessage() {
+        Message msg = new Message();
+        msg.userName = UserInfo.getName();
+        msg.currentDate = Date.today();
+        return msg;
+    }
+
+    /**
+     * @description Message class to save current user name and current date
+     */
+    public class Message {
+        public String userName;
+        public Date currentDate;
+    }
 }
