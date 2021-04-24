@@ -12,3 +12,9 @@
 // SFDX: Execute Anonymous Apex with Currently Selected Text
 String mensaje = CAPS_WelcomeClass.getWelcomeMessage();
 System.debug(LoggingLevel.INFO, 'Mensaje:' + mensaje);
+
+// Call the new method to get the message content (user name and current date attributes)
+CAPS_WelcomeClass.Message msg = CAPS_WelcomeClass.getMessage();
+System.debug('msg:' + msg);
+System.debug('user:' + msg.userName);
+System.debug('date:' + msg.currentDate);
