@@ -7,23 +7,38 @@
 public with sharing class CAPS_ContactHelper {
     /**
      * @description Creates a contact and an account with input param values
-     * @param name String parameter for contact name
-     * @param lastName String parameter for contact last name
-     * @param company String parameter for account name
-     * @return The newly created contact record
+     * @param params Object with params to create a contact record 
      */
-    public static Contact createContact(String name, String lastName, String company) {
-        //Account acc = new Account(Name = 'SFDC Account', Description = '', ...);
-        Account acc = new Account();
-        acc.Name = company;
-        Insert acc;
+    @AuraEnabled
+    public static void createContact(ContactParams params){
+        System.debug('params:' + params);
+        try {
+            Account acc = new Account();
+            acc.Name = params.companyName;
+            Insert acc;
 
-        Contact contact = new Contact();
-        contact.FirstName = name;
-        contact.LastName = lastName;
-        contact.AccountId = acc.Id;
-        Insert contact;
+            Contact c = new Contact();
+            c.FirstName = params.firstName;
+            c.LastName = params.lastName;
+            c.AccountId = acc.Id;
+            c.Phone = params.phoneNumber;
+            c.Email = params.emailAddress;
+            Insert c;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
-        return contact;
+    public class ContactParams {
+        @AuraEnabled 
+        public String firstName {get; set;}
+        @AuraEnabled 
+        public String lastName {get; set;}
+        @AuraEnabled 
+        public String phoneNumber {get; set;}
+        @AuraEnabled 
+        public String emailAddress {get; set;}
+        @AuraEnabled 
+        public String companyName {get; set;}
     }
 }
